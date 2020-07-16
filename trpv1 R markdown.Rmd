@@ -1,0 +1,37 @@
+---
+title: "trpv1 R markdown"
+author: "Vivien Maltez"
+date: "7/16/2020"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#read the input data
+trpv1_new <- read.csv("trpv1.tsv", sep="\t")
+
+#add column names 
+colnames(trpv1_new) = paste("col", 1:ncol(trpv1_new), sep = ".")
+```
+
+```{r}
+#extract the low quality associations (combined score with less than 0.5)
+trpv1_new_filtered <- subset(trpv1_new, col.15 < 0.5)
+```
+
+```{r}
+#extract the first two and the last column
+trpv1_new_filtered_small <- trpv1_new_filtered[,c(1,2,15)]
+```
+```{r}
+#write the filtered interactions in to a file
+write.table(trpv1_new_filtered_small, "~/Desktop/trpv1newfilteredsmall.txt", sep = "\t", quote = FALSE, row.names = FALSE)
+```
+
+
